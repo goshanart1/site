@@ -70,6 +70,15 @@
   .card{padding:20px;border:1px solid rgba(255,255,255,.09);border-radius:14px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01))}
   .card b{display:block;color:var(--blue);font-size:12px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:8px}
   .card p{margin:0;color:#9aa2a8;font-size:14px;line-height:1.5}
+
+  .shots{margin:56px auto 0;max-width:920px}
+  .shots-title{margin:0 0 18px;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#8f979d}
+  .slider{position:relative;overflow:hidden;border-radius:18px;border:1px solid rgba(255,255,255,.1);background:#0b0b0b;box-shadow:0 24px 60px rgba(0,0,0,.45);aspect-ratio:16/9}
+  .slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.02);transition:opacity .8s ease,transform 1.2s ease}
+  .slide.active{opacity:1;transform:scale(1)}
+  .dots{display:flex;justify-content:center;gap:10px;margin-top:14px}
+  .dot{width:8px;height:8px;border-radius:50%;border:0;padding:0;background:rgba(255,255,255,.28);cursor:pointer}
+  .dot.active{background:var(--blue);box-shadow:0 0 12px rgba(77,166,255,.55)}
   footer{padding:34px 24px 48px;text-align:center;color:#5f666c;font-size:12px;letter-spacing:.08em}
   @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
@@ -108,9 +117,20 @@
     </a>
     <div class="features">
       <div class="card"><b>ВХ / ESP</b><p>Кости, HP, оружие, дистанция, дроп и цвета союзников.</p></div>
-      <div class="card"><b>Без таймера</b><p>24-часового ограничения в этой версии нет.</p></div>
-      <div class="card"><b>Reaper Lite</b><p>Новая заставка и логотип с голубым акцентом.</p></div>
+      <div class="card"><b>Только визуал</b><p>Сборка без лишних функций — только то, что видно в кадре.</p></div>
+      <div class="card"><b>Постоянная версия</b><p>Одна стабильная сборка без JL. Просто скачай и играй.</p></div>
     </div>
+
+    <section class="shots">
+      <h2 class="shots-title">Скриншоты</h2>
+      <div class="slider" id="slider">
+        <img class="slide active" src="screens/1.jpg" alt="Скриншот 1">
+        <img class="slide" src="screens/2.jpg" alt="Скриншот 2">
+        <img class="slide" src="screens/3.jpg" alt="Скриншот 3">
+        <img class="slide" src="screens/4.jpg" alt="Скриншот 4">
+      </div>
+      <div class="dots" id="dots"></div>
+    </section>
   </main>
   <footer>REAPER SOFTWARE · @Reaper_Original · COUNTER FLAME 1.4.1</footer>
 </div>
@@ -190,6 +210,29 @@
       var a=rel.assets.find(function(x){return /CounterFlame-1\.4\.1\.apk$/.test(x.name)})||rel.assets[0];
       if(a) document.getElementById('download').href=a.browser_download_url;
     }).catch(function(){});
+
+  // Simple screenshot slider
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var dotsWrap=document.getElementById('dots');
+  var cur=0;
+  if(slides.length && dotsWrap){
+    slides.forEach(function(_,i){
+      var b=document.createElement('button');
+      b.className='dot'+(i===0?' active':'');
+      b.type='button';
+      b.setAttribute('aria-label','Скриншот '+(i+1));
+      b.addEventListener('click',function(){show(i,true)});
+      dotsWrap.appendChild(b);
+    });
+    var dots=[].slice.call(dotsWrap.children);
+    function show(i,manual){
+      slides[cur].classList.remove('active'); dots[cur].classList.remove('active');
+      cur=(i+slides.length)%slides.length;
+      slides[cur].classList.add('active'); dots[cur].classList.add('active');
+      if(manual){clearInterval(timer); timer=setInterval(function(){show(cur+1,false)},3500);}
+    }
+    var timer=setInterval(function(){show(cur+1,false)},3500);
+  }
 })();
 </script>
 </body>
