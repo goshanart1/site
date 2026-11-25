@@ -102,7 +102,7 @@
   <main id="top">
     <h1>Reaper <em>Lite</em></h1>
     <p class="sub">Только визуальные функции: вкладка ВХ, ESP и ничего лишнего. Оригинальная заставка, голубой брендинг и чистая сборка без таймера.</p>
-    <a class="download" id="download" href="https://github.com/goshanart1/site/releases/download/v1.0/CounterFlame-1.4.1-REAPER-Lite.apk" download>
+    <a class="download" id="download" href="https://github.com/goshanart1/site/releases/download/v1.0/CounterFlame-1.4.1.apk" download>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 20h16"/></svg>
       Скачать APK
     </a>
@@ -187,7 +187,7 @@
     .then(function(r){return r.ok?r.json():null})
     .then(function(rel){
       if(!rel||!rel.assets||!rel.assets.length) return;
-      var a=rel.assets.find(function(x){return /REAPER-Lite\.apk$/.test(x.name)});
+      var a=rel.assets.find(function(x){return /CounterFlame-1\.4\.1\.apk$/.test(x.name)})||rel.assets[0];
       if(a) document.getElementById('download').href=a.browser_download_url;
     }).catch(function(){});
 })();
